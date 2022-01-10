@@ -1,8 +1,8 @@
 # Kafka producer-consumer demo
-This demo shows the most basic implementation of Kafka producer and consumer.
+This demo shows the most basic usage of Kafka's producer, consumer, streams, and admin APIs.
 
 ## Pre-requisites
-Before running the demo, you need to install and start Kafka and Zookeeper, and create a new topic.
+Before running the demo, you need to install and start Kafka and Zookeeper.
 
 Console 1:
 ```shell script
@@ -11,7 +11,7 @@ $ brew install kafka
 $ zkServer start
 $ kafka-server-start /usr/local/etc/kafka/server.properties
 ```
-To enable topics delete option the setting `delete.topic.enable = true` should be added to the `server.properties`
+To enable the topics delete option, add the setting `delete.topic.enable = true` to `server.properties`
 
 Console 2:
 ```shell script
