@@ -2,10 +2,14 @@ package com.kafka_test.consumer;
 
 import com.kafka_test.producer.TestProducer;
 import org.apache.kafka.clients.consumer.*;
+import org.apache.kafka.common.PartitionInfo;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -18,12 +22,22 @@ public class TestConsumer {
         try (Consumer<String, String> consumer = new KafkaConsumer<>(getConsumerProperties())) {
             logger.info("Consumer started");
 
-            consumer.subscribe(Collections.singletonList(TOPIC_NAME));
+            // To be able to seek within a specific partition, we need to assign the consumer to that parition
+            // instead of subscribing to a topic. When subscribing to a topic, the partitions are being assigned
+            // automatically, and `seek` won't work.
+            consumer.assign(Collections.singletonList(new TopicPartition(TOPIC_NAME, 0)));
+            consumer.seek(new TopicPartition(TOPIC_NAME, 0), 17);
+
+            //consumer.subscribe(Collections.singletonList(TOPIC_NAME));
 
             while (true) {
                 ConsumerRecords<String, String> newRecords = consumer.poll(Duration.ofMillis(100));
-                newRecords.forEach(r -> logger.info(r.key() + ": " + r.value()));
+                newRecords.forEach(
+                        r -> logger.info(
+                                String.format("Offset: %d, key: %s, value: %s", r.offset(), r.key(), r.value())));
             }
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
         }
     }
 
