@@ -22,6 +22,7 @@ or run `com.kafka_test.admin.TestAdmin`
 ## Docker 
 
 ```Create Docker Image
+cd ./admin
 docker build -t [image tag, e.g. kafka_test_admin] .
 ```
 ```Run Container
