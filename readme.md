@@ -18,3 +18,12 @@ Console 2:
 $ kafka-topics --create --topic test_topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
 ```
 or run `com.kafka_test.admin.TestAdmin`
+
+## Docker 
+
+```Create Docker Image
+docker build -t [image tag, e.g. kafka_test_admin] .
+```
+```Run Container
+docker run [image tag, e.g. kafka_test_admin]
+```

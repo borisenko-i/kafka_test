@@ -13,7 +13,7 @@ public class TestAdmin {
     private static Logger logger = Logger.getLogger(TestAdmin.class.getName());
 
     public static void main(String[] args) {
-        try (AdminClient adminClient = AdminClient.create(getAdminProperties())) {
+        try (AdminClient adminClient = AdminClient.create(getAdminProperties(args[0]))) {
             if (Arrays.asList(args).contains("--delete")) {
                 logger.info("Deleting topic ...");
                 deleteTopic(adminClient);
@@ -56,15 +56,15 @@ public class TestAdmin {
 
     private static Set<String> listTopics(Admin adminClient) throws ExecutionException, InterruptedException {
         ListTopicsOptions options = new ListTopicsOptions();
-        options.timeoutMs(1000);
+        options.timeoutMs(10000);
         options.listInternal(true);
         ListTopicsResult topics = adminClient.listTopics(options);
         return topics.names().get();
     }
 
-    private static Properties getAdminProperties() {
+    private static Properties getAdminProperties(String hostName) {
         Properties properties = new Properties();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, String.format("%s:9092", hostName));
         return properties;
     }
 }
