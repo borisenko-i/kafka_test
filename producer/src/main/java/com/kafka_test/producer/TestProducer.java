@@ -1,7 +1,6 @@
 package com.kafka_test.producer;
 
 import java.util.Properties;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.apache.kafka.clients.producer.KafkaProducer;

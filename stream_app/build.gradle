@@ -1,0 +1,12 @@
+plugins {
+    id 'kafka_test.application'
+}
+
+dependencies {
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '3.0.0'
+    implementation group: 'org.apache.kafka', name: 'kafka-streams', version: '3.0.0'
+}
+
+application {
+    mainClass = 'com.kafka_test.stream_app.TestStreamApp'
+}

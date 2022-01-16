@@ -21,9 +21,9 @@ public class TestStreamApp {
     public static void main(String[] args) {
         StreamsBuilder builder = new StreamsBuilder();
         builder
-            .stream(INPUT_TOPIC, Consumed.with(Serdes.String(), Serdes.String()))
-            .mapValues((ValueMapper<String, String>) String::toUpperCase)
-            .to(OUTPUT_TOPIC, Produced.with(Serdes.String(), Serdes.String()));
+                .stream(INPUT_TOPIC, Consumed.with(Serdes.String(), Serdes.String()))
+                .mapValues((ValueMapper<String, String>) String::toUpperCase)
+                .to(OUTPUT_TOPIC, Produced.with(Serdes.String(), Serdes.String()));
 
         KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), getStreamProperties());
         kafkaStreams.start();

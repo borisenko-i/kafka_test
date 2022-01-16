@@ -1,0 +1,11 @@
+plugins {
+    id 'kafka_test.application'
+}
+
+dependencies {
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '3.0.0'
+}
+
+application {
+    mainClass = 'com.kafka_test.admin.TestAdmin'
+}

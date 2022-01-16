@@ -1,6 +1,5 @@
 package com.kafka_test.admin;
 
-import com.kafka_test.producer.TestProducer;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
@@ -11,7 +10,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("all")
 public class TestAdmin {
     private static final String TOPIC_NAME = "test_topic";
-    private static Logger logger = Logger.getLogger(TestProducer.class.getName());
+    private static Logger logger = Logger.getLogger(TestAdmin.class.getName());
 
     public static void main(String[] args) {
         try (AdminClient adminClient = AdminClient.create(getAdminProperties())) {

@@ -1,6 +1,5 @@
 package com.kafka_test.consumer;
 
-import com.kafka_test.producer.TestProducer;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
@@ -16,7 +15,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("all")
 public class TestConsumer {
     private static final String TOPIC_NAME = "test_topic";
-    private static Logger logger = Logger.getLogger(TestProducer.class.getName());
+    private static Logger logger = Logger.getLogger(TestConsumer.class.getName());
 
     public static void main(String[] args) {
         try (Consumer<String, String> consumer = new KafkaConsumer<>(getConsumerProperties())) {
