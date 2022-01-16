@@ -27,3 +27,5 @@ docker build -t [image tag, e.g. kafka_test_admin] .
 ```Run Container
 docker run [image tag, e.g. kafka_test_admin]
 ```
+
+[10 best practices to build a Java container with Docker](https://snyk.io/blog/best-practices-to-build-java-containers-with-docker/)
