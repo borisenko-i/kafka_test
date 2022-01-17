@@ -30,7 +30,7 @@ public class TestConsumer {
             //consumer.subscribe(Collections.singletonList(TOPIC_NAME));
 
             while (true) {
-                ConsumerRecords<String, String> newRecords = consumer.poll(Duration.ofMillis(1000));
+                ConsumerRecords<String, String> newRecords = consumer.poll(Duration.ofMillis(100));
                 newRecords.forEach(
                         r -> logger.info(
                                 String.format("Offset: %d, key: %s, value: %s", r.offset(), r.key(), r.value())));

@@ -56,7 +56,7 @@ public class TestAdmin {
 
     private static Set<String> listTopics(Admin adminClient) throws ExecutionException, InterruptedException {
         ListTopicsOptions options = new ListTopicsOptions();
-        options.timeoutMs(10000);
+        options.timeoutMs(1000);
         options.listInternal(true);
         ListTopicsResult topics = adminClient.listTopics(options);
         return topics.names().get();
