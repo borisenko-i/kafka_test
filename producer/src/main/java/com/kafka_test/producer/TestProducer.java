@@ -1,7 +1,6 @@
 package com.kafka_test.producer;
 
 import java.util.Properties;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -16,7 +15,7 @@ public class TestProducer {
     private static Logger logger = Logger.getLogger(TestProducer.class.getName());
 
     public static void main(String[] args) {
-        try (Producer<String, String> producer = new KafkaProducer<>(getProducerProperties())) {
+        try (Producer<String, String> producer = new KafkaProducer<>(getProducerProperties(args[0]))) {
             logger.info("Producer started");
 
             for (int recordNumber = 1; recordNumber <= 5; ++recordNumber) {
@@ -30,10 +29,10 @@ public class TestProducer {
         }
     }
 
-    private static Properties getProducerProperties() {
+    private static Properties getProducerProperties(String hostName) {
         Properties properties = new Properties();
 
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, String.format("%s:9092", hostName));
         properties.put(ProducerConfig.ACKS_CONFIG, "all");
         properties.put(ProducerConfig.RETRIES_CONFIG, 0);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

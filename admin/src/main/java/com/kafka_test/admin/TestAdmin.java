@@ -1,6 +1,5 @@
 package com.kafka_test.admin;
 
-import com.kafka_test.producer.TestProducer;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
@@ -11,10 +10,10 @@ import java.util.logging.Logger;
 @SuppressWarnings("all")
 public class TestAdmin {
     private static final String TOPIC_NAME = "test_topic";
-    private static Logger logger = Logger.getLogger(TestProducer.class.getName());
+    private static Logger logger = Logger.getLogger(TestAdmin.class.getName());
 
     public static void main(String[] args) {
-        try (AdminClient adminClient = AdminClient.create(getAdminProperties())) {
+        try (AdminClient adminClient = AdminClient.create(getAdminProperties(args[0]))) {
             if (Arrays.asList(args).contains("--delete")) {
                 logger.info("Deleting topic ...");
                 deleteTopic(adminClient);
@@ -63,9 +62,9 @@ public class TestAdmin {
         return topics.names().get();
     }
 
-    private static Properties getAdminProperties() {
+    private static Properties getAdminProperties(String hostName) {
         Properties properties = new Properties();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, String.format("%s:9092", hostName));
         return properties;
     }
 }

@@ -1,0 +1,4 @@
+plugins {
+    id 'kafka_test.common'
+    id 'application'
+}

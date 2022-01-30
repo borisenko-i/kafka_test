@@ -1,6 +1,5 @@
 package com.kafka_test.consumer;
 
-import com.kafka_test.producer.TestProducer;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
@@ -16,10 +15,10 @@ import java.util.logging.Logger;
 @SuppressWarnings("all")
 public class TestConsumer {
     private static final String TOPIC_NAME = "test_topic";
-    private static Logger logger = Logger.getLogger(TestProducer.class.getName());
+    private static Logger logger = Logger.getLogger(TestConsumer.class.getName());
 
     public static void main(String[] args) {
-        try (Consumer<String, String> consumer = new KafkaConsumer<>(getConsumerProperties())) {
+        try (Consumer<String, String> consumer = new KafkaConsumer<>(getConsumerProperties(args[0]))) {
             logger.info("Consumer started");
 
             // To be able to seek within a specific partition, we need to assign the consumer to that parition
@@ -41,10 +40,10 @@ public class TestConsumer {
         }
     }
 
-    private static Properties getConsumerProperties() {
+    private static Properties getConsumerProperties(String hostName) {
         Properties properties = new Properties();
 
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, String.format("%s:9092", hostName));
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "test-payments");
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
         properties.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");

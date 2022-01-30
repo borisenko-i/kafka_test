@@ -1,2 +1,2 @@
-rootProject.name = 'kafka_test'
-
+rootProject.name = 'com.kafka_test'
+include('admin', 'consumer', 'producer', 'stream_app')
