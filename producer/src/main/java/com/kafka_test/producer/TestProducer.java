@@ -15,6 +15,7 @@ public class TestProducer {
     private static Logger logger = Logger.getLogger(TestProducer.class.getName());
 
     public static void main(String[] args) {
+        logger.info(String.format("Bootstrap Server Host: %s", args[0]));
         try (Producer<String, String> producer = new KafkaProducer<>(getProducerProperties(args[0]))) {
             logger.info("Producer started");
 
@@ -22,17 +23,19 @@ public class TestProducer {
                 logger.info("Sending record " + recordNumber);
                 ProducerRecord<String, String> record =
                         new ProducerRecord<>(TOPIC_NAME, Integer.toString(recordNumber), "Message " + recordNumber);
-                producer.send(record);
+                producer.send(record).get();
             }
 
             logger.info("All records sent");
+        } catch (Exception ex) {
+            logger.severe(ex.getMessage());
         }
     }
 
-    private static Properties getProducerProperties(String hostName) {
+    private static Properties getProducerProperties(String bootstrapServerUri) {
         Properties properties = new Properties();
 
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, String.format("%s:9092", hostName));
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServerUri);
         properties.put(ProducerConfig.ACKS_CONFIG, "all");
         properties.put(ProducerConfig.RETRIES_CONFIG, 0);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

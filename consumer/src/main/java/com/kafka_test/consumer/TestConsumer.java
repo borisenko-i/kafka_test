@@ -18,16 +18,18 @@ public class TestConsumer {
     private static Logger logger = Logger.getLogger(TestConsumer.class.getName());
 
     public static void main(String[] args) {
+        logger.info(String.format("Bootstrap Server Host: %s", args[0]));
+
         try (Consumer<String, String> consumer = new KafkaConsumer<>(getConsumerProperties(args[0]))) {
             logger.info("Consumer started");
 
             // To be able to seek within a specific partition, we need to assign the consumer to that parition
             // instead of subscribing to a topic. When subscribing to a topic, the partitions are being assigned
             // automatically, and `seek` won't work.
-            consumer.assign(Collections.singletonList(new TopicPartition(TOPIC_NAME, 0)));
-            consumer.seek(new TopicPartition(TOPIC_NAME, 0), 17);
+            //consumer.assign(Collections.singletonList(new TopicPartition(TOPIC_NAME, 0)));
+            //consumer.seek(new TopicPartition(TOPIC_NAME, 0), 17);
 
-            //consumer.subscribe(Collections.singletonList(TOPIC_NAME));
+            consumer.subscribe(Collections.singletonList(TOPIC_NAME));
 
             while (true) {
                 ConsumerRecords<String, String> newRecords = consumer.poll(Duration.ofMillis(100));
@@ -40,10 +42,10 @@ public class TestConsumer {
         }
     }
 
-    private static Properties getConsumerProperties(String hostName) {
+    private static Properties getConsumerProperties(String bootstrapServerUri) {
         Properties properties = new Properties();
 
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, String.format("%s:9092", hostName));
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServerUri);
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "test-payments");
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
         properties.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
