@@ -7,8 +7,6 @@ services:
       - kafka_test_network
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
-    ports:
-      - 22181:2181
 
   kafka:
     image: confluentinc/cp-kafka:7.0.1@sha256:dee82c02cd7d36cea8d3369f181f47412adecf1001c10bbd4b4959610868dff5
@@ -42,7 +40,6 @@ services:
     build: ./consumer
     container_name: kafka_test_consumer
     depends_on:
-      - kafka
       - kafka_test_admin
     networks:
       - kafka_test_network
@@ -53,7 +50,6 @@ services:
     build: ./producer
     container_name: kafka_test_producer
     depends_on:
-      - kafka
       - kafka_test_admin
     networks:
       - kafka_test_network
@@ -69,5 +65,3 @@ services:
 networks:
   kafka_test_network:
     name: kafka_test_net
-
-
