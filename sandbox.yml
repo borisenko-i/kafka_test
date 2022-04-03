@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   zookeeper:
     image: zookeeper:3.7.0@sha256:7a6f115ce6564f0d68adf13f80c508e1303b2592f369082c869b0682c6a087d1
