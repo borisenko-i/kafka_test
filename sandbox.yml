@@ -1,0 +1,67 @@
+version: '3.9'
+services:
+  zookeeper:
+    image: zookeeper:3.7.0@sha256:7a6f115ce6564f0d68adf13f80c508e1303b2592f369082c869b0682c6a087d1
+    container_name: zookeeper
+    networks:
+      - kafka_test_network
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-kafka:7.0.1@sha256:dee82c02cd7d36cea8d3369f181f47412adecf1001c10bbd4b4959610868dff5
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    networks:
+      - kafka_test_network
+    ports:
+      - 29093:29093
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,HOST://0.0.0.0:29093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,HOST://localhost:29093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+    env_file:
+      - kafka.env
+
+  kafka_test_admin:
+    build: ./admin
+    container_name: kafka_test_admin
+    depends_on:
+      - kafka
+    networks:
+      - kafka_test_network
+    environment:
+      KAFKA_BOOTSTRAP_SERVER_ADDRESS: kafka:9092
+
+  kafka_test_consumer:
+    build: ./consumer
+    container_name: kafka_test_consumer
+    depends_on:
+      - kafka_test_admin
+    networks:
+      - kafka_test_network
+    environment:
+      KAFKA_BOOTSTRAP_SERVER_ADDRESS: kafka:9092
+
+  kafka_test_producer:
+    build: ./producer
+    container_name: kafka_test_producer
+    depends_on:
+      - kafka_test_admin
+    networks:
+      - kafka_test_network
+    environment:
+      KAFKA_BOOTSTRAP_SERVER_ADDRESS: kafka:9092
+
+  demo_container:
+    build: ./demoContainer
+    container_name: demo_container
+    networks:
+      - kafka_test_network
+
+networks:
+  kafka_test_network:
+    name: kafka_test_net

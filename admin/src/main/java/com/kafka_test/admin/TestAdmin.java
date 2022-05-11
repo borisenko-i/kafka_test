@@ -13,6 +13,8 @@ public class TestAdmin {
     private static Logger logger = Logger.getLogger(TestAdmin.class.getName());
 
     public static void main(String[] args) {
+        logger.info(String.format("Bootstrap Server Host: %s", args[0]));
+
         try (AdminClient adminClient = AdminClient.create(getAdminProperties(args[0]))) {
             if (Arrays.asList(args).contains("--delete")) {
                 logger.info("Deleting topic ...");
@@ -62,9 +64,9 @@ public class TestAdmin {
         return topics.names().get();
     }
 
-    private static Properties getAdminProperties(String hostName) {
+    private static Properties getAdminProperties(String bootstrapServerUri) {
         Properties properties = new Properties();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, String.format("%s:9092", hostName));
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServerUri);
         return properties;
     }
 }

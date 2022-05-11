@@ -1,7 +1,9 @@
-# Kafka producer-consumer demo
-This demo shows the most basic usage of Kafka's producer, consumer, streams, and admin APIs.
+# Kafka + Docker demo
+This demo shows the most basic usage of Kafka's producer, consumer, streams, and admin APIs. Besides that, it contains Dockerfiles to run the apps in containers, and a docker-compose file to run a local sandbox with a single command.
 
-## Pre-requisites
+The project is confirmed to build with Gradle v7.4.1, there might be build errors with earlier versions.
+
+## Running on localhost
 Before running the demo, you need to install and start Kafka and Zookeeper.
 
 Console 1:
@@ -30,3 +32,16 @@ docker run [image tag, e.g. kafka_test_admin]
 ```
 
 [10 best practices to build a Java container with Docker](https://snyk.io/blog/best-practices-to-build-java-containers-with-docker/)
+
+## Local Sandbox with Docker Compose
+
+```Create And Run All Containers
+docker compose -f sandbox.yml up -d
+```
+
+* Zookeeper
+* Kafka
+* Admin Service
+* Consumer Service
+* Producer Service
+
