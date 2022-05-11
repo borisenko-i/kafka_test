@@ -45,3 +45,22 @@ docker compose -f sandbox.yml up -d
 * Consumer Service
 * Producer Service
 
+## Kubernetes
+
+The k8s configs are located in the `kubernetes` subdirectory.
+
+To run the project locally on `minikube`, do the following:
+```
+$ minikube start
+$ kubectl apply -f kubernetes/
+```
+
+To open the dashboard, run:
+```
+$ minikube dashboard
+```
+
+In case of minikube start-up errors, try:
+```
+$ minikube delete
+```
