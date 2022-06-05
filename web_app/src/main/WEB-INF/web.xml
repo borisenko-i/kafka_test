@@ -15,6 +15,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
-        <url-pattern>/kafka_test/*</url-pattern>
+        <url-pattern>/web_app/*</url-pattern>
     </servlet-mapping>
 </web-app>
