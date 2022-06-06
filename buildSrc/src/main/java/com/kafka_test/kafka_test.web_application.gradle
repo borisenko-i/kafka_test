@@ -3,14 +3,8 @@ plugins {
     id 'war'
 }
 
-sourceCompatibility = 1.8
-
 dependencies {
-    implementation group: 'org.glassfish.jersey.core', name: 'jersey-server', version: '3.0.4'
-    implementation group: 'org.glassfish.jersey', name: 'jersey-bom', version: '3.0.4'
-    implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: '3.0.4'
     implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '3.0.4'
     implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '3.0.4'
     implementation group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '3.0.4'
-    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 }
