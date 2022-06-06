@@ -17,6 +17,6 @@ spec:
       containers:
         - name: kafka-test-web-app
           image: kafka-test-web-app
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Never
           ports:
             - containerPort: 8080

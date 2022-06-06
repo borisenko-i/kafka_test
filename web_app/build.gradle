@@ -3,8 +3,6 @@ plugins {
 }
 
 war {
-    war {
-        webAppDirectory = file('src/main')
-        from 'src/rootContent' // adds a file-set to the root of the archive
-    }
+    webAppDirectory = file('src/main')
+    from 'src/rootContent' // adds a file-set to the root of the archive
 }
