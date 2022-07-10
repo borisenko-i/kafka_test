@@ -1,0 +1,8 @@
+plugins {
+    id 'kafka_test.web_application'
+}
+
+war {
+    webAppDirectory = file('src/main')
+    from 'src/rootContent' // adds a file-set to the root of the archive
+}

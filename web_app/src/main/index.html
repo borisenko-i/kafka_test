@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <title>Test Web App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script>
+        function postResource() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "api/test_resource", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({resourceName: "Test Resource " + Math.random()}));
+        }
+    </script>
+</head>
+<body>
+<h2>Jersey RESTful Web Application!</h2>
+<p><a href="api/test_resource">GET test_resource</a></p>
+<p><button type="button" onclick="postResource();">POST test_resource</button></p>
+</body>

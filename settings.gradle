@@ -1,2 +1,5 @@
 rootProject.name = 'com.kafka_test'
 include('admin', 'consumer', 'producer', 'stream_app')
+include 'web_app'
+include 'web_app'
+
