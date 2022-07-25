@@ -56,9 +56,9 @@ services:
     environment:
       KAFKA_BOOTSTRAP_SERVER_ADDRESS: kafka:9092
 
-  kafka_test_web_app:
-    build: ./web_app
-    container_name: kafka_test_web_app
+  kafka_test_web_producer:
+    build: ./web_producer
+    container_name: kafka_test_web_producer
     networks:
       - kafka_test_network
     ports:
