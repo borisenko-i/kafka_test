@@ -1,0 +1,16 @@
+plugins {
+    id 'kafka_test.application'
+}
+
+dependencies {
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '3.0.0'
+    implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '3.0.4'
+    implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '3.0.4'
+    implementation group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '3.0.4'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '11.0.11'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '11.0.11'
+}
+
+application {
+    mainClass = 'com.kafka_test.web_producer.Main'
+}
