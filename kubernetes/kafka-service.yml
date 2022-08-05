@@ -6,5 +6,6 @@ spec:
   selector:
     app: kafka
   ports:
-    - port: 9092
-      protocol: TCP
+    - protocol: TCP
+      port: 29093
+      targetPort: 29093
