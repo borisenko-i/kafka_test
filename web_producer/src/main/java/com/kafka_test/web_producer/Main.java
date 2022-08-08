@@ -20,7 +20,8 @@ public final class Main {
     private Main() {}
 
     public static void main(String[] args) {
-        Server server = createServer("localhost", 12345, "localhost");
+        LOGGER.info(String.format("HOST: %s, PORT: %s, KAFKA_HOST_KEY: %s", args[0], args[1], args[2]));
+        Server server = createServer(args[0], Integer.valueOf(args[1]), args[2]);
 
         try {
             server.start();

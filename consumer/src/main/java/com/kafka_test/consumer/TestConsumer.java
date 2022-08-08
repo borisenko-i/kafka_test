@@ -5,6 +5,9 @@ import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +18,8 @@ import java.util.logging.Logger;
 @SuppressWarnings("all")
 public class TestConsumer {
     private static final String TOPIC_NAME = "test_topic";
+    private static final String OUTPUT_PATH = "output.txt";
+
     private static Logger logger = Logger.getLogger(TestConsumer.class.getName());
 
     public static void main(String[] args) {
@@ -26,16 +31,13 @@ public class TestConsumer {
             // To be able to seek within a specific partition, we need to assign the consumer to that parition
             // instead of subscribing to a topic. When subscribing to a topic, the partitions are being assigned
             // automatically, and `seek` won't work.
-            //consumer.assign(Collections.singletonList(new TopicPartition(TOPIC_NAME, 0)));
-            //consumer.seek(new TopicPartition(TOPIC_NAME, 0), 17);
-
-            consumer.subscribe(Collections.singletonList(TOPIC_NAME));
+            consumer.assign(Collections.singletonList(new TopicPartition(TOPIC_NAME, 0)));
+            consumer.seek(new TopicPartition(TOPIC_NAME, 0), 0);
+            // consumer.subscribe(Collections.singletonList(TOPIC_NAME));
 
             while (true) {
                 ConsumerRecords<String, String> newRecords = consumer.poll(Duration.ofMillis(100));
-                newRecords.forEach(
-                        r -> logger.info(
-                                String.format("Offset: %d, key: %s, value: %s", r.offset(), r.key(), r.value())));
+                newRecords.forEach(TestConsumer::processRecord);
             }
         } catch (Exception e) {
             logger.severe(e.getMessage());
@@ -54,5 +56,26 @@ public class TestConsumer {
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
         return properties;
+    }
+
+    private static void processRecord(ConsumerRecord<String, String> record) {
+        String outputString =
+                String.format(
+                        "Offset: %d, key: %s, value: %s",
+                        record.offset(),
+                        record.key(),
+                        record.value());
+        logger.info(outputString);
+        writeToFile(outputString);
+    }
+
+    private static void writeToFile(String string) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_PATH));
+            writer.write(string);
+            writer.close();
+        } catch (Exception e) {
+            logger.severe("Error when writing to file: " + e.getMessage());
+        }
     }
 }

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-container
+  labels:
+    app: demo-container
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-container
+  template:
+    metadata:
+      labels:
+        app: demo-container
+    spec:
+      containers:
+        - name: demo-container
+          image: demo_container
+          imagePullPolicy: Never

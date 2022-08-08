@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-producer
+  labels:
+    app: web-producer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-producer
+  template:
+    metadata:
+      labels:
+        app: web-producer
+    spec:
+      containers:
+        - name: web-producer
+          image: web_producer
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVER_ADDRESS
+              value: "kafka-service:29093"
+            - name: WEB_PRODUCER_HOST
+              value: "0.0.0.0"
+            - name: WEB_PRODUCER_PORT
+              value: "80"
