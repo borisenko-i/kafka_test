@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("all")
 public class TestConsumer {
     private static final String TOPIC_NAME = "test_topic";
-    private static final String OUTPUT_PATH = "~/output.txt";
+    private static final String OUTPUT_PATH = "output.txt";
 
     private static Logger logger = Logger.getLogger(TestConsumer.class.getName());
 
