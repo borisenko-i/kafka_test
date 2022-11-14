@@ -1,18 +1,11 @@
 package com.kafka_test.web_producer.resources;
 
 import com.kafka_test.web_producer.Main;
-import com.kafka_test.web_producer.KafkaProducerWrapper;
-import com.kafka_test.web_producer.exceptions.ProcessRequestException;
-import com.kafka_test.web_producer.exceptions.BadProduceRequestException;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Configuration;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 import java.util.logging.Logger;
 
-@Path("/")
+@RestController
+@RequestMapping("/resource")
 @SuppressWarnings("all")
 public class ProducerApiResource {
 
@@ -20,11 +13,15 @@ public class ProducerApiResource {
 
     public static final String KAFKA_BOOTSTRAP_HOST_KEY = "KAFKA_BOOTSTRAP_HOST";
 
-    @Context
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}", produces = "application/json")
+    public String getBook(@PathVariable int id) {
+        return String.format("Resource #%d", id);
+    }
+
+    /*@Context
     private Configuration resourceConfig;
 
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
+    @PutMapping(consumes = "application/json")
     public void create(ProduceRequest request) {
         LOGGER.info("Create request received");
 
@@ -51,5 +48,5 @@ public class ProducerApiResource {
         if (request.requestId.isEmpty()) {
             throw new BadProduceRequestException("'requestId' can't be empty.");
         }
-    }
+    } */
 }

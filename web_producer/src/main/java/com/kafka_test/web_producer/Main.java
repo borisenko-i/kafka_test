@@ -1,16 +1,14 @@
 package com.kafka_test.web_producer;
 
-import com.kafka_test.web_producer.resources.ProducerApiResource;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 import java.net.InetSocketAddress;
-import java.util.Map;
 import java.util.logging.Logger;
 
 @SuppressWarnings("all")
@@ -37,17 +35,21 @@ public final class Main {
         Connector connector = new ServerConnector(server);
         server.addConnector(connector);
 
-        // Create a servlet holder off of ProducerApiResource, set resource properties
+        AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
+        applicationContext.scan("com.kafka_test.web_producer");
+        applicationContext.refresh();
+
+        /*// Create a servlet holder off of ProducerApiResource, set resource properties
         ResourceConfig resourceConfig = new ResourceConfig().register(ProducerApiResource.class);
         resourceConfig.setProperties(
                 Map.of(
                         ProducerApiResource.KAFKA_BOOTSTRAP_HOST_KEY, kafkaHost,
-                        "jersey.config.server.wadl.disableWadl", "true"));
-        ServletHolder servletHolder = new ServletHolder(new ServletContainer(resourceConfig));
+                        "jersey.config.server.wadl.disableWadl", "true"));*/
+        ServletHolder servletHolder = new ServletHolder(new DispatcherServlet(applicationContext));
 
         // Set up context handler to set ProducerApiResource on "/*"
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/");
-        contextHandler.addServlet(servletHolder, "/*");
+        contextHandler.addServlet(servletHolder, "/");
 
         // Attach handler, stop server at app shutdown
         server.setHandler(contextHandler);
